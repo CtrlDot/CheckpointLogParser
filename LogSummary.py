@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+
 ######
 # Log Summary Report
 #
@@ -66,6 +68,8 @@ while (len(values)):
     Helper.AddToDict(protocol, protocols)
     
     values = checkpointLog.GetLineByHeader(mustHaveHeaders)
+
+checkpointLog.Close()
 
 print "Number of lines parsed: {}".format(checkpointLog.GetLinesRead())
 

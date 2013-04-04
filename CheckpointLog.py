@@ -23,6 +23,11 @@ class CheckpointLog:
             return True
         return False
     
+    def HasHeaders(self,headers):
+        for header in headers:
+            if not self.HasHeader(header):
+                raise Exception("Log does not contain header " + header)
+    
     def GetFileSize(self):
         statinfo = os.stat(self.logFileName)
         return statinfo.st_size
@@ -43,7 +48,7 @@ class CheckpointLog:
                     retValue.append(currentLineSplit[index])
             else:
                 retValue.append('')
-        return retValue 
+        return retValue         
             
     def ParseLine(self,line):
         lineSplit = line.split('"')
@@ -55,3 +60,6 @@ class CheckpointLog:
     
     def GetLinesRead(self):
         return self.linesRead
+    
+    def Close(self):
+        self.logFile.close()
