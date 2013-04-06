@@ -3,8 +3,10 @@
 ######
 # Log Summary Report
 #
-# Basically reads in a log file and prints out some
-# fancy shit about the log.
+# Basically reads in a fw.log file and prints out some useful top 10 stats
+#
+# Top 10 is determined by number of line matches
+#
 #
 # Written by Shamir Charania
 ######
@@ -18,10 +20,12 @@ import sys
 parser = argparse.ArgumentParser(description="This program provides a Log Summary Report \
                                               on a given log file.  Basically it will try \
                                               and provide an overview of what is in the file \
-                                              and some useful top 10 stats")
+                                              via some useful top 10 stats")
 
 parser.add_argument("file", help="The logfile to parse.")
 args = parser.parse_args()
+
+Helper.PrintTitle("Log Summary")
 
 checkpointLog = CheckpointLog.CheckpointLog(args.file)
 
@@ -33,10 +37,11 @@ mustHaveHeaders = [
                    "Service",
                    "Protocol"
                   ]
+    
+missingHeader = checkpointLog.HasHeaders(mustHaveHeaders)
+if not missingHeader == None:
+    raise Exception("Log does not contain necessary headers = " + missingHeader)
 
-for header in mustHaveHeaders:
-    if not checkpointLog.HasHeader(header):
-        raise Exception("Log does not contain necessary headers - " + header)
 
 print 'Parsing {}'.format(args.file)
 print 'Log file size: {} bytes'.format(checkpointLog.GetFileSize())
@@ -72,8 +77,6 @@ while (len(values)):
 checkpointLog.Close()
 
 print "Number of lines parsed: {}".format(checkpointLog.GetLinesRead())
-
-
 
 Helper.PrintTop10(origins, "Top 10 Origins")
 Helper.PrintTop10(rules, "Top 10 Rules")

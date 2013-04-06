@@ -26,7 +26,7 @@ class CheckpointLog:
     def HasHeaders(self,headers):
         for header in headers:
             if not self.HasHeader(header):
-                raise Exception("Log does not contain header " + header)
+                return header
     
     def GetFileSize(self):
         statinfo = os.stat(self.logFileName)

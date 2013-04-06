@@ -1,6 +1,12 @@
 import collections
 from itertools import islice
 
+
+def PrintTitle(title):
+    print "=============================="
+    print "{0} \n\n{1}".format(title,"Written By: Shamir Charania")
+    print "=============================="
+
 def PrintDict(dict,number, title):
     print "=============================="
     print title

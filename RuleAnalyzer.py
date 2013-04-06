@@ -18,6 +18,8 @@ parser.add_argument("rule",type=str,help="    The rule to search.  This actually
 
 args = parser.parse_args()
 
+Helper.PrintTitle("Rule Analyzer")
+
 checkpointLog = CheckpointLog.CheckpointLog(args.file)
 
 mustHaveHeaders = [
@@ -29,7 +31,9 @@ mustHaveHeaders = [
                    "Current Rule Number"
                    ]
 
-checkpointLog.HasHeaders(mustHaveHeaders)
+missingHeader = checkpointLog.HasHeaders(mustHaveHeaders)
+if not missingHeader == None:
+    raise Exception("Log does not contain necessary headers = " + missingHeader)
 
 print "Parsing {0}, looking for rule {1}".format(args.file,args.rule)
 

@@ -29,6 +29,9 @@ parser = argparse.ArgumentParser(description="This program downloads various bad
 parser.add_argument("file", help="The logfile to parse.")
 parser.add_argument("--all", help="Prints all flows rather than top 10", action='store_true')
 args = parser.parse_args()
+
+Helper.PrintTitle("Compromised IP Search")
+    
     
 ipAddressesToFind = {}
 AddDShieldResultsTo(ipAddressesToFind)
@@ -42,7 +45,9 @@ mustHaveHeaders = [
                    'Protocol'
                    ]
 
-checkpointLog.HasHeaders(mustHaveHeaders)
+missingHeader = checkpointLog.HasHeaders(mustHaveHeaders)
+if not missingHeader == None:
+    raise Exception("Log does not contain necessary headers = " + missingHeader)
 
 flows = {}
 
